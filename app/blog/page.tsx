@@ -4,6 +4,18 @@ import CustomCursor from '@/components/CustomCursor'
 import { getCollection } from '@/lib/db'
 import type { Metadata } from 'next'
 
+interface Blog {
+  _id: string
+  title: string
+  titleBn?: string
+  excerpt?: string
+  content?: string
+  category: string
+  slug: string
+  published?: boolean
+  createdAt?: string
+}
+
 export const metadata: Metadata = {
   title: 'Blog — ড্রাইভিং টিপস ও খবর',
   description: 'Driving tips, road safety guides from BD Driving School.',
@@ -22,12 +34,12 @@ const CAT_COLORS: Record<string, string> = {
   Tips: '#60a5fa', Guide: '#4ade80', Safety: '#f87171', News: '#fbbf24',
 }
 
-async function getPosts() {
+async function getPosts(): Promise<Blog[]> {
   try {
     const col = await getCollection('blogs')
     const posts = await col.find({ published: true }).sort({ createdAt: -1 }).toArray()
     if (posts.length === 0) return DEFAULT_POSTS
-    return posts.map(p => ({ ...p, _id: p._id.toString() }))
+    return posts.map(p => ({ ...p, _id: p._id.toString() })) as Blog[]
   } catch { return DEFAULT_POSTS }
 }
 
@@ -56,36 +68,36 @@ export default async function BlogPage() {
             <div className="glass-card p-8 md:p-10 mb-8">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-xs font-bold px-3 py-1 rounded-full font-display"
-                  style={{ background: `${CAT_COLORS[String(featured.category)] || '#F59E0B'}20`, color: CAT_COLORS[String(featured.category)] || '#F59E0B', border: `1px solid ${CAT_COLORS[String(featured.category)] || '#F59E0B'}40` }}>
-                  {String(featured.category)}
+                  style={{ background: `${CAT_COLORS[featured.category] || '#F59E0B'}20`, color: CAT_COLORS[featured.category] || '#F59E0B', border: `1px solid ${CAT_COLORS[featured.category] || '#F59E0B'}40` }}>
+                  {featured.category}
                 </span>
-                <span className="text-xs" style={{ color: 'rgba(240,244,255,0.3)' }}>{new Date(String(featured.createdAt)).toLocaleDateString('en-BD', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                <span className="text-xs" style={{ color: 'rgba(240,244,255,0.3)' }}>{new Date(featured.createdAt ?? '').toLocaleDateString('en-BD', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                 <span className="text-xs font-bold font-display" style={{ color: '#F59E0B' }}>★ Featured</span>
               </div>
-              <h2 className="font-display font-bold text-3xl md:text-4xl mb-2" style={{ color: '#F0F4FF' }}>{String(featured.title)}</h2>
-              <p className="text-sm font-semibold mb-4 font-display" style={{ color: '#F59E0B' }}>{String(featured.titleBn || '')}</p>
-              <p className="leading-relaxed max-w-2xl" style={{ color: 'rgba(240,244,255,0.5)' }}>{String(featured.excerpt || '')}</p>
+              <h2 className="font-display font-bold text-3xl md:text-4xl mb-2" style={{ color: '#F0F4FF' }}>{featured.title}</h2>
+              <p className="text-sm font-semibold mb-4 font-display" style={{ color: '#F59E0B' }}>{featured.titleBn}</p>
+              <p className="leading-relaxed max-w-2xl" style={{ color: 'rgba(240,244,255,0.5)' }}>{featured.excerpt}</p>
               <p className="mt-5 text-xs font-bold uppercase tracking-widest font-display" style={{ color: 'rgba(240,244,255,0.25)' }}>Full article coming soon</p>
             </div>
           )}
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {rest.map((post) => {
-              const color = CAT_COLORS[String(post.category)] || '#F59E0B'
+              const color = CAT_COLORS[post.category] || '#F59E0B'
               return (
-                <div key={String(post._id)} className="glass-card p-6">
+                <div key={post._id} className="glass-card p-6">
                   <div className="flex items-center gap-2 mb-4">
                     <span className="text-xs font-bold px-2.5 py-1 rounded-full font-display"
                       style={{ background: `${color}20`, color, border: `1px solid ${color}40` }}>
-                      {String(post.category || 'Article')}
+                      {post.category}
                     </span>
                     <span className="text-xs" style={{ color: 'rgba(240,244,255,0.3)' }}>
-                      {new Date(String(post.createdAt)).toLocaleDateString('en-BD', { month: 'short', day: 'numeric', year: 'numeric' })}
+                      {new Date(post.createdAt ?? '').toLocaleDateString('en-BD', { month: 'short', day: 'numeric', year: 'numeric' })}
                     </span>
                   </div>
-                  <h2 className="font-display font-bold text-lg mb-2 line-clamp-2" style={{ color: '#F0F4FF' }}>{String(post.title)}</h2>
-                  <p className="text-xs font-semibold mb-3 font-display" style={{ color: '#F59E0B' }}>{String(post.titleBn || '')}</p>
-                  <p className="text-sm leading-relaxed line-clamp-3" style={{ color: 'rgba(240,244,255,0.45)' }}>{String(post.excerpt || '')}</p>
+                  <h2 className="font-display font-bold text-lg mb-2 line-clamp-2" style={{ color: '#F0F4FF' }}>{post.title}</h2>
+                  <p className="text-xs font-semibold mb-3 font-display" style={{ color: '#F59E0B' }}>{post.titleBn}</p>
+                  <p className="text-sm leading-relaxed line-clamp-3" style={{ color: 'rgba(240,244,255,0.45)' }}>{post.excerpt}</p>
                   <p className="mt-4 text-xs font-bold uppercase tracking-widest font-display" style={{ color: 'rgba(240,244,255,0.2)' }}>Coming soon</p>
                 </div>
               )
