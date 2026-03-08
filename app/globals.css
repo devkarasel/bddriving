@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: 'Outfit', sans-serif;
+  --font-sans: 'DM Sans', sans-serif;
+  --gold: #F59E0B;
+  --gold-light: #FCD34D;
+  --night: #070B14;
+  --night-2: #0D1321;
+  --glass: rgba(255,255,255,0.05);
+  --glass-border: rgba(255,255,255,0.1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hide default cursor only on pointer (non-touch) devices */
+@media (pointer: fine) {
+  html { cursor: none; }
+  *, *:hover { cursor: none !important; }
+}
+
+body {
+  background: #070B14;
+  color: #F0F4FF;
+  font-family: var(--font-sans), sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ─── Custom Cursor ─── */
+#custom-cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 20px; height: 20px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background 0.2s, border-radius 0.2s;
+  mix-blend-mode: difference;
+}
+#custom-cursor.hovering {
+  width: 48px; height: 48px;
+  background: transparent;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+}
+#cursor-wheel {
+  position: fixed;
+  top: 0; left: 0;
+  width: 36px; height: 36px;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+#cursor-wheel.hovering { opacity: 1; }
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #070B14; }
+::-webkit-scrollbar-thumb { background: #F59E0B; border-radius: 4px; }
+scrollbar-width: thin;
+scrollbar-color: #F59E0B #070B14;
+
+/* ─── Glass card ─── */
+.glass-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+.glass-card:hover {
+  border-color: rgba(245,158,11,0.5);
+  box-shadow: 0 0 40px rgba(245,158,11,0.08), 0 20px 60px rgba(0,0,0,0.4);
+}
+
+/* ─── Liquid button ─── */
+.btn-liquid {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  border-radius: 100px;
+  border: none;
+  overflow: hidden;
+  text-decoration: none;
+  z-index: 1;
+  transition: color 0.3s, transform 0.2s, box-shadow 0.3s;
+}
+.btn-liquid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gold);
+  border-radius: 100px;
+  z-index: -1;
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.btn-liquid::after {
+  content: '';
+  position: absolute;
+  bottom: -60%;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  width: 200%;
+  height: 200%;
+  background: #D97706;
+  border-radius: 50%;
+  z-index: -1;
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.btn-liquid:hover::after { transform: translateX(-50%) scale(1.5); }
+.btn-liquid:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(245,158,11,0.4); }
+.btn-liquid-primary { background: var(--gold); color: #070B14; }
+.btn-liquid-ghost {
+  background: transparent;
+  color: #F0F4FF;
+  border: 1.5px solid rgba(255,255,255,0.2);
+}
+.btn-liquid-ghost::before { background: rgba(255,255,255,0.06); }
+.btn-liquid-ghost::after { background: rgba(245,158,11,0.15); }
+.btn-liquid-ghost:hover { color: var(--gold); border-color: var(--gold); }
+
+/* ─── Section label ─── */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-family: var(--font-display);
+}
+.section-label::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1.5px;
+  background: var(--gold);
+}
+
+/* ─── Form field ─── */
+.form-field {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #F0F4FF;
+  font-size: 14px;
+  font-family: var(--font-sans);
+  padding: 14px 18px;
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.form-field:focus {
+  border-color: var(--gold);
+  background: rgba(245,158,11,0.05);
+}
+.form-field::placeholder { color: rgba(255,255,255,0.3); }
+.form-field option { background: #0D1321; color: #F0F4FF; }
+
+/* ─── Noise overlay ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.4;
+}
+
+/* ─── Gold gradient text ─── */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #FCD34D 0%, #F59E0B 50%, #D97706 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Glow line ─── */
+.glow-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245,158,11,0.6), transparent);
+}
+
+/* ─── Course card ─── */
+.course-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.blog-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
