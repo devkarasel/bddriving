@@ -2,6 +2,8 @@ import HomeClient from '@/components/HomeClient'
 import { getCollection } from '@/lib/db'
 import type { Metadata } from 'next'
 
+export const revalidate = 0
+
 export const metadata: Metadata = {
   title: 'BD Driving School — বাংলাদেশের সেরা ড্রাইভিং স্কুল',
   description: 'BRTA-approved professional driving school at Nikunja-2, Khilkhet, Dhaka. Car, motorcycle & commercial vehicle training.',

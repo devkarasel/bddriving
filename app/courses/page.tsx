@@ -5,6 +5,8 @@ import CustomCursor from '@/components/CustomCursor'
 import { getCollection } from '@/lib/db'
 import type { Metadata } from 'next'
 
+export const revalidate = 0
+
 interface Course {
   _id: string
   icon: string

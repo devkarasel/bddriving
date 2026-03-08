@@ -4,6 +4,8 @@ import CustomCursor from '@/components/CustomCursor'
 import { getCollection } from '@/lib/db'
 import type { Metadata } from 'next'
 
+export const revalidate = 0
+
 interface Blog {
   _id: string
   title: string
