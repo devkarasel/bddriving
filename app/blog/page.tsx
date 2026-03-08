@@ -21,13 +21,13 @@ export const metadata: Metadata = {
   description: 'Driving tips, road safety guides from BD Driving School.',
 }
 
-const DEFAULT_POSTS = [
-  { _id: '1', title: 'How to Pass Your BRTA Driving Test First Time', titleBn: 'প্রথমবারেই বিআরটিএ পরীক্ষায় পাস করুন', excerpt: 'Essential tips to help you prepare and pass your Bangladesh driving license test on your first attempt.', category: 'Tips', createdAt: new Date().toISOString() },
-  { _id: '2', title: 'Traffic Rules Every Driver Must Know in Bangladesh', titleBn: 'বাংলাদেশে প্রতিটি চালকের জানা উচিত ট্রাফিক নিয়ম', excerpt: 'A comprehensive guide to Bangladesh\'s traffic laws, road signs, and regulations every driver should know.', category: 'Guide', createdAt: new Date().toISOString() },
-  { _id: '3', title: 'Defensive Driving: Stay Safe on Dhaka Roads', titleBn: 'ঢাকার রাস্তায় নিরাপদ থাকুন', excerpt: 'Learn defensive driving techniques to keep yourself and others safe in Dhaka\'s challenging traffic conditions.', category: 'Safety', createdAt: new Date().toISOString() },
-  { _id: '4', title: "Women's Guide to Getting a Driving License", titleBn: 'নারীদের ড্রাইভিং লাইসেন্স গাইড', excerpt: 'A step-by-step guide for women looking to get their driving license in Bangladesh with helpful tips.', category: 'Guide', createdAt: new Date().toISOString() },
-  { _id: '5', title: 'Manual vs Automatic Car: Which Should You Learn?', titleBn: 'ম্যানুয়াল না অটোমেটিক: কোনটি শিখবেন?', excerpt: 'Comparing manual and automatic transmission to help you decide which is best for you.', category: 'Tips', createdAt: new Date().toISOString() },
-  { _id: '6', title: 'Road Safety Statistics in Bangladesh', titleBn: 'বাংলাদেশে সড়ক নিরাপত্তা পরিসংখ্যান', excerpt: 'Understanding road accident data and how proper driver training can make our roads safer.', category: 'Safety', createdAt: new Date().toISOString() },
+const DEFAULT_POSTS: Blog[] = [
+  { _id: '1', slug: 'brta-driving-test', title: 'How to Pass Your BRTA Driving Test First Time', titleBn: 'প্রথমবারেই বিআরটিএ পরীক্ষায় পাস করুন', excerpt: 'Essential tips to help you prepare and pass your Bangladesh driving license test on your first attempt.', category: 'Tips', createdAt: new Date().toISOString() },
+  { _id: '2', slug: 'traffic-rules-bangladesh', title: 'Traffic Rules Every Driver Must Know in Bangladesh', titleBn: 'বাংলাদেশে প্রতিটি চালকের জানা উচিত ট্রাফিক নিয়ম', excerpt: 'A comprehensive guide to Bangladesh\'s traffic laws, road signs, and regulations every driver should know.', category: 'Guide', createdAt: new Date().toISOString() },
+  { _id: '3', slug: 'defensive-driving-dhaka', title: 'Defensive Driving: Stay Safe on Dhaka Roads', titleBn: 'ঢাকার রাস্তায় নিরাপদ থাকুন', excerpt: 'Learn defensive driving techniques to keep yourself and others safe in Dhaka\'s challenging traffic conditions.', category: 'Safety', createdAt: new Date().toISOString() },
+  { _id: '4', slug: 'womens-driving-license-guide', title: "Women's Guide to Getting a Driving License", titleBn: 'নারীদের ড্রাইভিং লাইসেন্স গাইড', excerpt: 'A step-by-step guide for women looking to get their driving license in Bangladesh with helpful tips.', category: 'Guide', createdAt: new Date().toISOString() },
+  { _id: '5', slug: 'manual-vs-automatic', title: 'Manual vs Automatic Car: Which Should You Learn?', titleBn: 'ম্যানুয়াল না অটোমেটিক: কোনটি শিখবেন?', excerpt: 'Comparing manual and automatic transmission to help you decide which is best for you.', category: 'Tips', createdAt: new Date().toISOString() },
+  { _id: '6', slug: 'road-safety-statistics', title: 'Road Safety Statistics in Bangladesh', titleBn: 'বাংলাদেশে সড়ক নিরাপত্তা পরিসংখ্যান', excerpt: 'Understanding road accident data and how proper driver training can make our roads safer.', category: 'Safety', createdAt: new Date().toISOString() },
 ]
 
 const CAT_COLORS: Record<string, string> = {
