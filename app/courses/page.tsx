@@ -5,12 +5,26 @@ import CustomCursor from '@/components/CustomCursor'
 import { getCollection } from '@/lib/db'
 import type { Metadata } from 'next'
 
+interface Course {
+  _id: string
+  icon: string
+  title: string
+  titleBn?: string
+  description?: string
+  price: number
+  duration?: string
+  sessions?: string
+  slug: string
+  published?: boolean
+  order?: number
+}
+
 export const metadata: Metadata = {
   title: 'Driving Courses — কোর্সসমূহ',
   description: 'Browse all BD Driving School courses.',
 }
 
-const DEFAULT_COURSES = [
+const DEFAULT_COURSES: Course[] = [
   { _id: '1', icon: '🚗', title: 'Car Driving — Beginner', titleBn: 'গাড়ি চালানো — শিক্ষার্থী', description: 'Manual & automatic transmission, traffic rules, parking, and road safety from scratch.', price: 8000, duration: '30 Days', sessions: '20 Sessions', slug: 'car-driving-beginner' },
   { _id: '2', icon: '🚗', title: 'Car Driving — Advanced', titleBn: 'গাড়ি চালানো — উন্নত', description: 'High-speed control, defensive driving, emergency maneuvers, and highway driving.', price: 6000, duration: '20 Days', sessions: '15 Sessions', slug: 'car-driving-advanced' },
   { _id: '3', icon: '🏍️', title: 'Motorcycle Training', titleBn: 'মোটরসাইকেল প্রশিক্ষণ', description: 'Comprehensive two-wheeler training for scooters, bikes, and heavy motorcycles.', price: 5000, duration: '15 Days', sessions: '12 Sessions', slug: 'motorcycle-training' },
@@ -19,12 +33,12 @@ const DEFAULT_COURSES = [
   { _id: '6', icon: '🔄', title: 'Refresher Course', titleBn: 'রিফ্রেশার কোর্স', description: 'Update your skills with new traffic rules, defensive techniques, and practice sessions.', price: 3000, duration: '10 Days', sessions: '8 Sessions', slug: 'refresher-course' },
 ]
 
-async function getCourses() {
+async function getCourses(): Promise<Course[]> {
   try {
     const col = await getCollection('courses')
     const courses = await col.find({ published: true }).sort({ order: 1 }).toArray()
     if (courses.length === 0) return DEFAULT_COURSES
-    return courses.map(c => ({ ...c, _id: c._id.toString() }))
+    return courses.map(c => ({ ...c, _id: c._id.toString() })) as Course[]
   } catch { return DEFAULT_COURSES }
 }
 
@@ -49,28 +63,28 @@ export default async function CoursesPage() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {courses.map((course) => (
-            <Link href={`/courses/${course.slug}`} key={String(course._id)}
+            <Link href={`/courses/${course.slug}`} key={course._id}
               className="glass-card block p-7 group" style={{ textDecoration: 'none', color: 'inherit' }}>
               <div className="flex items-start justify-between mb-6">
                 <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-4xl"
                   style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.2)' }}>
-                  {String(course.icon || '🚗')}
+                  {course.icon}
                 </div>
                 <div className="text-right">
                   <span className="text-xs font-semibold font-display px-3 py-1.5 rounded-full block mb-1"
                     style={{ background: 'rgba(245,158,11,0.1)', color: '#F59E0B', border: '1px solid rgba(245,158,11,0.2)' }}>
-                    {String(course.duration || '')}
+                    {course.duration}
                   </span>
-                  <span className="text-xs" style={{ color: 'rgba(240,244,255,0.35)' }}>{String(course.sessions || '')}</span>
+                  <span className="text-xs" style={{ color: 'rgba(240,244,255,0.35)' }}>{course.sessions}</span>
                 </div>
               </div>
-              <h2 className="font-display font-bold text-xl mb-1" style={{ color: '#F0F4FF' }}>{String(course.title)}</h2>
-              <p className="text-xs mb-4 font-semibold font-display" style={{ color: '#F59E0B' }}>{String(course.titleBn || '')}</p>
-              <p className="text-sm leading-relaxed mb-6 line-clamp-2" style={{ color: 'rgba(240,244,255,0.45)' }}>{String(course.description || '')}</p>
+              <h2 className="font-display font-bold text-xl mb-1" style={{ color: '#F0F4FF' }}>{course.title}</h2>
+              <p className="text-xs mb-4 font-semibold font-display" style={{ color: '#F59E0B' }}>{course.titleBn}</p>
+              <p className="text-sm leading-relaxed mb-6 line-clamp-2" style={{ color: 'rgba(240,244,255,0.45)' }}>{course.description}</p>
               <div className="flex items-center justify-between pt-5" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                 <div>
                   <p className="text-xs mb-0.5" style={{ color: 'rgba(240,244,255,0.35)' }}>Course Fee</p>
-                  <span className="font-display font-black text-2xl text-gold-gradient">৳{Number(course.price).toLocaleString()}</span>
+                  <span className="font-display font-black text-2xl text-gold-gradient">৳{course.price.toLocaleString()}</span>
                 </div>
                 <span className="text-sm font-semibold font-display group-hover:text-gold transition-colors" style={{ color: 'rgba(240,244,255,0.4)' }}>Enroll →</span>
               </div>
